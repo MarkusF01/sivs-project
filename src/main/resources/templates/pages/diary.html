@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <title>Tagebuch</title>
+
+    <!-- Verweis auf das externe JavaScript-Datei 'main.js' -->
+    <script th:src="@{/scripts/main.js}"></script>
+
+    <!-- Verweis auf das Bootstrap CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+</head>
+<body>
+<div class="container mt-5">
+
+    <!-- Header-Bereich -->
+    <div id="header-area" class="row justify-content-center">
+        <div class="col">
+            <div class="row justify-content-between">
+                <div class="col-2"></div>
+
+<!--                 Anzeige des Benutzernamens aus den URL-Parametern -->
+<!--                <h2 class="mb-4">Tagebuch von <script>const par = new URLSearchParams(window.location.search);document.write(par.get('username'));</script></h2>-->
+
+
+                <h2 class="mb-4">Tagebuch von <span id="username-display"></span></h2>
+
+                <script>
+                    const par = new URLSearchParams(window.location.search);
+                    const name = par.get('username');
+                    if (name) {
+                        document.getElementById('username-display').textContent = name;
+                    }
+                </script>
+                <div class="col-2">
+                    <!-- Abmelden-Button, der zur Startseite führt -->
+                    <a href="/">
+                        <button class="btn btn-primary">Abmelden</button>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bereich für das Hinzufügen von Tagebucheinträgen -->
+    <div id="posting-area" class="row">
+        <div class="col">
+            <form id="login-form">
+                <div class="row">
+                    <div class="col-sm">
+                        <label>Titel</label>
+                        <input type="text" class="form-control" id="entry_title"
+                               placeholder="Titel Tagebucheintrag">
+                    </div>
+                    <div class="col-sm">
+                        <label>Datum</label>
+                        <input type="date" id="entry_date" name="dateInput" class="form-control w-100">
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm">
+                        <label>Tagebuch Eintrag</label>
+                        <textarea id="entry_content" rows="4" class="w-100"
+                                  placeholder="Was ist heute passiert?"></textarea>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-2">
+                        <!-- Button zum Posten von Tagebucheinträgen -->
+                        <button id="post-button" class="btn btn-primary">Posten</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Bereich für die Anzeige von Tagebucheinträgen -->
+    <div class="row">
+        <div class="col">
+            <h2>Tagebucheinträge</h2>
+        </div>
+    </div>
+
+    <div id="diary-area" class="row">
+        <div class="col">
+            <div id="diary-entries" class="container">
+                <!-- Hier werden die Tagebucheinträge dynamisch eingefügt -->
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Verweis auf das externe JavaScript-Datei 'diary.js' -->
+<script th:src="@{/scripts/diary.js}"></script>
+
+<!-- Verweis auf externe JavaScript-Bibliotheken (jQuery, Popper.js, Bootstrap) -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>

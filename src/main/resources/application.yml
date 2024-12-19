@@ -1,0 +1,17 @@
+spring:
+  application:
+    name: authentication
+  datasource:
+    url: jdbc:postgresql://localhost:5432/db_sivs_diary
+    username: postgres
+    password: sivs_2024!
+    driver-class-name: org.postgresql.Driver
+  jpa:
+    hibernate:
+      ddl-auto: update
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+  web:
+    resources:
+      static-locations: classpath:/static/
