@@ -10,10 +10,10 @@ import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeToken;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.lang.reflect.Type;
-import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
@@ -31,6 +31,7 @@ public class DiaryController {
         this.mapper = mapper;
     }
 
+    @PreAuthorize("isAuthenticated()")
     @GetMapping
     public ResponseEntity<?> getDiaryEntries(@PathVariable String username) {
         Optional<User> userOptional = userRepository.findByUsername(username);
@@ -47,6 +48,7 @@ public class DiaryController {
         return ResponseEntity.ok(diaryEntryDtoList);
     }
 
+    @PreAuthorize("isAuthenticated()")
     @DeleteMapping("/{diaryId}")
     public ResponseEntity<?> deleteDiaryEntry(@PathVariable Integer diaryId) {
         Optional<DiaryEntry> diaryEntryOptional = diaryEntryRepository.findById(diaryId);
@@ -59,6 +61,7 @@ public class DiaryController {
         return ResponseEntity.ok("Diary entry deleted successfully");
     }
 
+    @PreAuthorize("isAuthenticated()")
     @PostMapping
     public ResponseEntity<?> createDiaryEntry(@PathVariable String username, @RequestBody CreateDiaryEntryRequest diaryEntry) {
         if (username == null || diaryEntry == null) {

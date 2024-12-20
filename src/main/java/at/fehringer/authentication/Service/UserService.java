@@ -6,10 +6,16 @@ import at.fehringer.authentication.Controller.dto.ResetPasswordRequest;
 import at.fehringer.authentication.Repository.UserRepository;
 import at.fehringer.authentication.Repository.model.User;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.Optional;
+
 @Service
-public class UserService {
+public class UserService implements UserDetailsService {
 
     private final UserRepository userRepository;
 
@@ -30,10 +36,11 @@ public class UserService {
         if (userRepository.existsByUsername(createUserRequest.getUsername())) {
             return false;
         }
+        BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
 
         User user = new User();
         user.setUsername(createUserRequest.getUsername());
-        user.setPassword(createUserRequest.getPassword());
+        user.setPassword(encoder.encode(createUserRequest.getPassword()));
         user.setSecretQuestion(createUserRequest.getSecretQuestion());
         user.setSecretAnswer(createUserRequest.getSecretAnswer());
 
@@ -54,5 +61,20 @@ public class UserService {
     public String getSecretQuestion(String username) {
         User user = userRepository.findByUsername(username).orElse(null);
         return user != null ? user.getSecretQuestion() : null;
+    }
+
+    @Override
+    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+        Optional<User> result = userRepository.findByUsername(username);
+
+        if (result.isEmpty()) {
+            throw new UsernameNotFoundException("User with username: " + username + " not found");
+        }
+
+        return org.springframework.security.core.userdetails.User.builder()
+                .username(result.get().getUsername())
+                .password(result.get().getPassword())
+                .roles("USER")
+                .build();
     }
 }
