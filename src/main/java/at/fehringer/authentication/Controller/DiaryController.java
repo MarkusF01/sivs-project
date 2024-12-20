@@ -9,8 +9,10 @@ import at.fehringer.authentication.Repository.model.User;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeToken;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
 import java.lang.reflect.Type;
@@ -33,7 +35,11 @@ public class DiaryController {
 
     @PreAuthorize("isAuthenticated()")
     @GetMapping
-    public ResponseEntity<?> getDiaryEntries(@PathVariable String username) {
+    public ResponseEntity<?> getDiaryEntries(@PathVariable String username, Authentication authentication) {
+        if(!authentication.getName().equals(username)) {
+          return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+        }
+
         Optional<User> userOptional = userRepository.findByUsername(username);
 
         if (userOptional.isEmpty()) {
@@ -50,7 +56,13 @@ public class DiaryController {
 
     @PreAuthorize("isAuthenticated()")
     @DeleteMapping("/{diaryId}")
-    public ResponseEntity<?> deleteDiaryEntry(@PathVariable Integer diaryId) {
+    public ResponseEntity<?> deleteDiaryEntry(@PathVariable Integer diaryId,
+                                              @PathVariable String username,
+                                              Authentication authentication) {
+        if(!authentication.getName().equals(username)) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+        }
+
         Optional<DiaryEntry> diaryEntryOptional = diaryEntryRepository.findById(diaryId);
 
         if (diaryEntryOptional.isEmpty()) {
@@ -63,10 +75,13 @@ public class DiaryController {
 
     @PreAuthorize("isAuthenticated()")
     @PostMapping
-    public ResponseEntity<?> createDiaryEntry(@PathVariable String username, @RequestBody CreateDiaryEntryRequest diaryEntry) {
-        if (username == null || diaryEntry == null) {
-            return ResponseEntity.badRequest().body("Username and entry content are required");
+    public ResponseEntity<?> createDiaryEntry(@PathVariable String username,
+                                              @RequestBody CreateDiaryEntryRequest diaryEntry,
+                                              Authentication authentication) {
+        if(!authentication.getName().equals(username)) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
         }
+
         Optional<User> userOptional = userRepository.findByUsername(username);
 
         if (userOptional.isEmpty()) {
