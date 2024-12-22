@@ -5,6 +5,8 @@ async function loadDiaryEntries(username) {
         const entries = await loadJSON(`/api/users/${username}/diary-entries`);
         console.log(entries);
 
+        document.getElementById('diary-container').hidden = false;
+
         // Holen Sie die HTML-Liste, in die die Einträge eingefügt werden sollen
         const entriesList = document.getElementById('diary-entries');
 
@@ -22,7 +24,7 @@ async function loadDiaryEntries(username) {
 }
 
 // Funktion zum Löschen eines Tagebucheintrags
-async function deleteDiaryEntry(event) {
+async function deleteDiaryEntry(event, username) {
     // Extrahiere die ID des zu löschenden Eintrags aus dem Button
     var button = event.target.id;
     var delete_button = document.getElementById(button);
@@ -30,7 +32,7 @@ async function deleteDiaryEntry(event) {
 
     try {
         // Sende Anfrage zum Löschen an den Server
-        const response = await deleteRequest(`/api/users/123/diary-entries/${parent}`);
+        const response = await deleteRequest(`/api/users/${username}/diary-entries/${parent}`);
 
         // Entferne die gelöschte Eintrag-Box aus dem DOM
         var entry = document.getElementById(parent);
@@ -102,6 +104,11 @@ document.getElementById('post-button').addEventListener('click', async function 
     addDiaryEntry(event);
 });
 
+document.getElementById('logout-button').addEventListener('click', async function (event) {
+    window.location.href = "/";
+});
+
+
 // Funktion zum Erstellen einer Box für einen Tagebucheintrag
 function createDiaryBox(id, title, date, content) {
     const div_row = document.createElement('div');
@@ -124,7 +131,7 @@ function createDiaryBox(id, title, date, content) {
     deleteButton.className = "btn btn-outline-danger btn-sm";
     deleteButton.innerHTML = "&times;"; // HTML-Code für das 'x'-Zeichen
     deleteButton.addEventListener("click", function (event) {
-        deleteDiaryEntry(event);
+        deleteDiaryEntry(event, username);
     });
 
     // Füge den Löschbutton zum TitelElement hinzu

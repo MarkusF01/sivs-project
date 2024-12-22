@@ -1,7 +1,6 @@
 package at.fehringer.authentication.Service;
 
 import at.fehringer.authentication.Controller.dto.CreateUserRequest;
-import at.fehringer.authentication.Controller.dto.LoginRequest;
 import at.fehringer.authentication.Controller.dto.ResetPasswordRequest;
 import at.fehringer.authentication.Repository.UserRepository;
 import at.fehringer.authentication.Repository.model.User;
@@ -22,14 +21,6 @@ public class UserService implements UserDetailsService {
     @Autowired
     public UserService(UserRepository userRepository) {
         this.userRepository = userRepository;
-    }
-
-    public String authenticateUser(String username, LoginRequest loginRequest) {
-        User user = userRepository.findByUsername(username).orElse(null);
-        if (user != null && user.getPassword().equals(loginRequest.getPassword())) {
-            return "/pages/diary?username=" + username;
-        }
-        return null;
     }
 
     public boolean insertUser(CreateUserRequest createUserRequest) {

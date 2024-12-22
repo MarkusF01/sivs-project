@@ -1,12 +1,13 @@
 package at.fehringer.authentication.Controller;
 
 import at.fehringer.authentication.Controller.dto.CreateUserRequest;
-import at.fehringer.authentication.Controller.dto.LoginRequest;
 import at.fehringer.authentication.Controller.dto.LoginResponse;
 import at.fehringer.authentication.Controller.dto.ResetPasswordRequest;
 import at.fehringer.authentication.Service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -20,14 +21,11 @@ public class UserManagementController {
         this.userService = userService;
     }
 
-    @PostMapping("/{username}/authorize")
-    public ResponseEntity<?> login(@PathVariable String username, @RequestBody LoginRequest loginRequest) {
-        String result = userService.authenticateUser(username, loginRequest);
+    @PreAuthorize("isAuthenticated()")
+    @GetMapping("/authorize")
+    public ResponseEntity<?> login(Authentication authentication) {
 
-        if (result == null) {
-            return ResponseEntity.badRequest().body("Invalid credentials");
-        }
-        return ResponseEntity.ok(new LoginResponse(result));
+        return ResponseEntity.ok(new LoginResponse("/pages/diary?username=" + authentication.getName()));
     }
 
     @PostMapping
