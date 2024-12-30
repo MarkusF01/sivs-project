@@ -1,4 +1,4 @@
-package at.fehringer.authentication.Repository.model;
+package at.fehringer.authentication.repository.model;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;

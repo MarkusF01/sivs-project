@@ -1,10 +1,10 @@
-package at.fehringer.authentication.Service;
+package at.fehringer.authentication.service;
 
-import at.fehringer.authentication.Controller.dto.CreateUserRequest;
-import at.fehringer.authentication.Controller.dto.LoginRequest;
-import at.fehringer.authentication.Controller.dto.ResetPasswordRequest;
-import at.fehringer.authentication.Repository.UserRepository;
-import at.fehringer.authentication.Repository.model.User;
+import at.fehringer.authentication.controller.dto.CreateUserRequest;
+import at.fehringer.authentication.controller.dto.LoginRequest;
+import at.fehringer.authentication.controller.dto.ResetPasswordRequest;
+import at.fehringer.authentication.repository.UserRepository;
+import at.fehringer.authentication.repository.model.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

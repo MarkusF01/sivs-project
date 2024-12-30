@@ -1,6 +1,7 @@
 spring:
   application:
     name: authentication
+  # Diary DB
   datasource:
     url: jdbc:postgresql://localhost:5432/db_sivs_diary
     username: postgres
@@ -12,6 +13,14 @@ spring:
     properties:
       hibernate:
         dialect: org.hibernate.dialect.PostgreSQLDialect
+  # Thymeleaf
   web:
     resources:
       static-locations: classpath:/static/
+  # Redis Session
+#  data:
+#      redis:
+#        url: redis://localhost:6379
+#        host: localhost
+#        password: session
+#        port: 6379

@@ -1,4 +1,4 @@
-package at.fehringer.authentication.Controller;
+package at.fehringer.authentication.controller;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;

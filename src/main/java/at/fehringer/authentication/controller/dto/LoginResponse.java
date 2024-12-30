@@ -1,4 +1,4 @@
-package at.fehringer.authentication.Controller.dto;
+package at.fehringer.authentication.controller.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
