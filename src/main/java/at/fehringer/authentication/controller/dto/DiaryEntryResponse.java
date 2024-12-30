@@ -1,11 +1,12 @@
 package at.fehringer.authentication.controller.dto;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
 
-@Data
+import java.util.List;
+
+@Data @AllArgsConstructor
 public class DiaryEntryResponse {
-    private Integer id;
-    private String entryTitle;
-    private String entryContent;
-    private String entryDate;
+    private String username;
+    private List<DiaryEntryResponseData> entries;
 }

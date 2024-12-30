@@ -19,22 +19,10 @@
             <div class="row justify-content-between">
                 <div class="col-2"></div>
 
-<!--                 Anzeige des Benutzernamens aus den URL-Parametern -->
-<!--                <h2 class="mb-4">Tagebuch von <script>const par = new URLSearchParams(window.location.search);document.write(par.get('username'));</script></h2>-->
-
-
                 <h2 class="mb-4">Tagebuch von <span id="username-display"></span></h2>
-
-                <script>
-                    const par = new URLSearchParams(window.location.search);
-                    const name = par.get('username');
-                    if (name) {
-                        document.getElementById('username-display').textContent = name;
-                    }
-                </script>
                 <div class="col-2">
-                    <!-- Abmelden-Button, der zur Startseite führt -->
-                    <a href="/">
+                    <!-- Abmelden-Button -->
+                    <a href="/logout">
                         <button class="btn btn-primary">Abmelden</button>
                     </a>
                 </div>

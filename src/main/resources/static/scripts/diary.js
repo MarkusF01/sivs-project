@@ -1,15 +1,17 @@
 // Funktion zum Laden von Tagebucheinträgen für einen bestimmten Benutzer
-async function loadDiaryEntries(username) {
+async function loadDiaryEntries() {
     try {
         // Lade die Tagebucheinträge vom Server
-        const entries = await loadJSON(`/api/users/${username}/diary-entries`);
-        console.log(entries);
+        const entriesResponse = await loadJSON(`/api/users/current/diary-entries`);
+        console.log(entriesResponse);
 
         // Holen Sie die HTML-Liste, in die die Einträge eingefügt werden sollen
         const entriesList = document.getElementById('diary-entries');
 
+        document.getElementById('username-display').textContent = entriesResponse.username;
+
         // Iteriere durch die Einträge und erstelle jeweils eine Box
-        entries.forEach(entry => {
+        entriesResponse.entries.forEach(entry => {
             const div_row = createDiaryBox(entry.id, entry.entryTitle, entry.entryDate, entry.entryContent);
             entriesList.appendChild(div_row);
         });
@@ -30,7 +32,7 @@ async function deleteDiaryEntry(event) {
 
     try {
         // Sende Anfrage zum Löschen an den Server
-        const response = await deleteRequest(`/api/users/123/diary-entries/${parent}`);
+        const response = await deleteRequest(`/api/users/current/diary-entries/${parent}`);
 
         // Entferne die gelöschte Eintrag-Box aus dem DOM
         var entry = document.getElementById(parent);
@@ -64,7 +66,7 @@ async function addDiaryEntry(event) {
 
     try {
         // API-Endpunkt für das Hinzufügen eines Tagebucheintrags
-        const apiUrl = `/api/users/${urlParams.get('username')}/diary-entries`;
+        const apiUrl = `/api/users/current/diary-entries`;
         
         // Sende Anfrage zum Hinzufügen an den Server
         const response = await postJSON(apiUrl, formdata);
@@ -79,14 +81,6 @@ async function addDiaryEntry(event) {
     }
 }
 
-// Überprüfe, ob ein Benutzername in den URL-Parametern vorhanden ist
-const urlParams = new URLSearchParams(window.location.search);
-const username = urlParams.get('username');
-if (username === null || username === undefined) {
-    // Wenn kein Benutzername vorhanden ist, leite zur Startseite weiter
-    window.location.href = "/";
-}
-
 // Holen Sie das aktuelle Datum und formatieren Sie es als yyyy-mm-dd
 var currentDate = new Date();
 var formattedDate = currentDate.toISOString().slice(0, 10);
@@ -95,7 +89,7 @@ var formattedDate = currentDate.toISOString().slice(0, 10);
 document.getElementById('entry_date').value = formattedDate;
 
 // Lade vorhandene Tagebucheinträge für den Benutzer
-loadDiaryEntries(username);
+loadDiaryEntries();
 
 // Füge dem "Posten"-Button einen Eventlistener hinzu, der die Funktion zum Hinzufügen aufruft
 document.getElementById('post-button').addEventListener('click', async function (event) {

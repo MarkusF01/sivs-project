@@ -2,6 +2,7 @@ package at.fehringer.authentication.controller;
 
 import at.fehringer.authentication.controller.dto.DiaryEntryResponse;
 import at.fehringer.authentication.controller.dto.CreateDiaryEntryRequest;
+import at.fehringer.authentication.controller.dto.DiaryEntryResponseData;
 import at.fehringer.authentication.repository.DiaryEntryRepository;
 import at.fehringer.authentication.repository.UserRepository;
 import at.fehringer.authentication.repository.model.DiaryEntry;
@@ -10,14 +11,16 @@ import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeToken;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
 import java.lang.reflect.Type;
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
 @RestController
-@RequestMapping("/api/users/{username}/diary-entries")
+@RequestMapping("/api/users/current/diary-entries")
 public class DiaryController {
     private final UserRepository userRepository;
     private final DiaryEntryRepository diaryEntryRepository;
@@ -31,8 +34,8 @@ public class DiaryController {
     }
 
     @GetMapping
-    public ResponseEntity<?> getDiaryEntries(@PathVariable String username) {
-        Optional<User> userOptional = userRepository.findByUsername(username);
+    public ResponseEntity<?> getDiaryEntries(Authentication auth) {
+        Optional<User> userOptional = userRepository.findByUsername(auth.getName());
 
         if (userOptional.isEmpty()) {
             return ResponseEntity.badRequest().body("User not found");
@@ -41,9 +44,15 @@ public class DiaryController {
         User user = userOptional.get();
         List<DiaryEntry> diaryEntries = user.getDiaryEntries();
 
-        Type listType = new TypeToken<List<DiaryEntryResponse>>() {}.getType();
-        List<DiaryEntryResponse> diaryEntryDtoList = mapper.map(diaryEntries, listType);
-        return ResponseEntity.ok(diaryEntryDtoList);
+        if(diaryEntries.isEmpty()) {
+            return ResponseEntity.ok(new DiaryEntryResponse(user.getUsername(), Collections.emptyList()));
+        }
+
+        Type listType = new TypeToken<List<DiaryEntryResponseData>>() {}.getType();
+        List<DiaryEntryResponseData> mappedEntries = mapper.map(diaryEntries, listType);
+        String username = diaryEntries.getFirst().getUser().getUsername();
+        DiaryEntryResponse response = new DiaryEntryResponse(username, mappedEntries);
+        return ResponseEntity.ok(response);
     }
 
     @DeleteMapping("/{diaryId}")
@@ -59,11 +68,8 @@ public class DiaryController {
     }
 
     @PostMapping
-    public ResponseEntity<?> createDiaryEntry(@PathVariable String username, @RequestBody CreateDiaryEntryRequest diaryEntry) {
-        if (username == null || diaryEntry == null) {
-            return ResponseEntity.badRequest().body("Username and entry content are required");
-        }
-        Optional<User> userOptional = userRepository.findByUsername(username);
+    public ResponseEntity<?> createDiaryEntry(Authentication auth, @RequestBody CreateDiaryEntryRequest diaryEntry) {
+        Optional<User> userOptional = userRepository.findByUsername(auth.getName());
 
         if (userOptional.isEmpty()) {
             return ResponseEntity.badRequest().body("User not found");
@@ -77,6 +83,6 @@ public class DiaryController {
         diaryEntryToAdd.setUser(user);
 
         diaryEntryRepository.save(diaryEntryToAdd);
-        return ResponseEntity.ok(mapper.map(diaryEntryToAdd, DiaryEntryResponse.class));
+        return ResponseEntity.ok(mapper.map(diaryEntryToAdd, DiaryEntryResponseData.class));
     }
 }

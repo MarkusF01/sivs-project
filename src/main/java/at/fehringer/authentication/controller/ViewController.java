@@ -5,12 +5,12 @@ import org.springframework.web.bind.annotation.GetMapping;
 
 @Controller
 public class ViewController {
-    @GetMapping("/")
+    @GetMapping("/login")
     public String viewLogin() {
         return "index";
     }
 
-    @GetMapping("/pages/diary")
+    @GetMapping("/")
     public String viewDiary() {
         return "pages/diary";
     }

@@ -16,17 +16,17 @@
                 <h2 class="mb-4">Tagebuch</h2>
 
                 <!-- Login-Formular -->
-                <form id="login-form">
+                <form th:action="@{/login}" method="POST">
                     <!-- Benutzername-Eingabefeld -->
                     <div class="form-group">
                         <label for="username">Benutzername</label>
-                        <input type="text" class="form-control" id="username" placeholder="Benutzername eingeben">
+                        <input type="text" class="form-control" id="username" name="username" placeholder="Benutzername eingeben">
                     </div>
 
                     <!-- Passwort-Eingabefeld -->
                     <div id="password_box" class="form-group">
                         <label for="password">Passwort</label>
-                        <input type="password" class="form-control" id="password" placeholder="Passwort eingeben">
+                        <input type="password" class="form-control" id="password" name="password" placeholder="Passwort eingeben">
                         <hr> <!-- Horizontale Linie zur visuellen Trennung -->
                     </div>
                     <hr> <!-- Weitere horizontale Linie zur Trennung -->
