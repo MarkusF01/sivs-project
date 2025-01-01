@@ -81,6 +81,18 @@ async function addDiaryEntry(event) {
     }
 }
 
+async function logout(event) {
+    event.preventDefault();
+
+    const response = await postLogout()
+    if(response.ok) {
+        window.location.href = "/";
+    } else {
+        alert("Error while logging out")
+    }
+}
+
+
 // Holen Sie das aktuelle Datum und formatieren Sie es als yyyy-mm-dd
 var currentDate = new Date();
 var formattedDate = currentDate.toISOString().slice(0, 10);
@@ -95,6 +107,8 @@ loadDiaryEntries();
 document.getElementById('post-button').addEventListener('click', async function (event) {
     addDiaryEntry(event);
 });
+
+document.getElementById('logout-button').addEventListener('click', async event => logout(event));
 
 // Funktion zum Erstellen einer Box für einen Tagebucheintrag
 function createDiaryBox(id, title, date, content) {

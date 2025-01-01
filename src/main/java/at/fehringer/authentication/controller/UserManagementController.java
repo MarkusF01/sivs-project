@@ -37,7 +37,7 @@ public class UserManagementController {
         if (!result) {
             return ResponseEntity.badRequest().body("Failed to create user");
         }
-        return ResponseEntity.ok(new LoginResponse("/pages/diary?username=" + createUserRequest.getUsername()));
+        return ResponseEntity.ok().body("Successfully created user");
     }
 
     @PostMapping("/{username}/reset-password")
