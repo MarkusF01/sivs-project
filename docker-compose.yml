@@ -5,6 +5,4 @@ services:
     image: "redis:alpine"
     ports:
       - "6379:6379"
-#    environment:
-#      REDIS_HOST: sivs_user
-#      REDIS_PASSWORD: session
+    command: /bin/sh -c "redis-server --requirepass sivs_2024"
