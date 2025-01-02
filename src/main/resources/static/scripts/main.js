@@ -93,6 +93,28 @@ async function createAccount(data) {
     }
 }
 
+async function postLogin(url, data) {
+    console.log(`Zugriff auf URL ${url}`);
+    try {
+        const response = await fetch(url, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded'
+            },
+            body: data
+        });
+
+        if (response.ok && !response.url.includes("error")) {
+            return response;
+        } else {
+            throw new Error('Anfrage fehlgeschlagen');
+        }
+    } catch (error) {
+        console.error("Fehler beim Abrufen der Daten", error);
+        throw new Error('Netzwerkantwort war nicht in Ordnung.');
+    }
+}
+
 // Funktion zum Ausloggen eines Accounts
 async function postLogout() {
     try {
