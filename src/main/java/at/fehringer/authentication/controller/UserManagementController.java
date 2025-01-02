@@ -4,9 +4,14 @@ import at.fehringer.authentication.controller.dto.CreateUserRequest;
 import at.fehringer.authentication.controller.dto.LoginRequest;
 import at.fehringer.authentication.controller.dto.LoginResponse;
 import at.fehringer.authentication.controller.dto.ResetPasswordRequest;
+import at.fehringer.authentication.service.TokenService;
 import at.fehringer.authentication.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -14,20 +19,30 @@ import org.springframework.web.bind.annotation.*;
 public class UserManagementController {
 
     private final UserService userService;
+    private final TokenService tokenService;
+    private final AuthenticationManager authenticationManager;
 
     @Autowired
-    public UserManagementController(UserService userService) {
+    public UserManagementController(UserService userService, TokenService tokenService, AuthenticationManager authenticationManager) {
         this.userService = userService;
+        this.tokenService = tokenService;
+        this.authenticationManager = authenticationManager;
     }
 
-    @PostMapping("/{username}/authorize")
-    public ResponseEntity<?> login(@PathVariable String username, @RequestBody LoginRequest loginRequest) {
-        String result = userService.authenticateUser(username, loginRequest);
+    @PostMapping("/login")
+    public ResponseEntity<?> login(@RequestBody LoginRequest request) {
+        Authentication authentication = authenticationManager.authenticate(
+                new UsernamePasswordAuthenticationToken(
+                        request.getUsername(),
+                        request.getPassword()
+                )
+        );
+        SecurityContextHolder.getContext().setAuthentication(authentication);
 
-        if (result == null) {
-            return ResponseEntity.badRequest().body("Invalid credentials");
-        }
-        return ResponseEntity.ok(new LoginResponse(result));
+        String token = tokenService.generateToken(request);
+
+
+        return ResponseEntity.ok(new LoginResponse(token));
     }
 
     @PostMapping

@@ -20,15 +20,16 @@ form.addEventListener('submit', async function (event) {
 
     // Erstellt ein Objekt mit den Anmeldedaten
     const loginRequest = {
+        username: username,
         password: password
     }
-
     try {
         // Sendet die Anmeldedaten an den Server und wartet auf die Antwort
-        const response = await postJSON(`/api/users/${username}/authorize`, loginRequest);
+        const response = await postJSON(`/api/users/login`, loginRequest);
 
         // Leitet den Benutzer zur Homeseite weiter, wenn die Anmeldung erfolgreich war
-        window.location.href = response.path;
+        console.log(response)
+        // window.location.href = response.path;
     } catch (error) {
         // Tritt ein Fehler während der Anmeldung auf
 
