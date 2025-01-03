@@ -67,6 +67,7 @@ public class SecurityConfig {
                             "/scripts/*",
                             "/api/users",
                             "/api/users/login",
+                            "/login",
                             "/api/users/*/*").permitAll();
                     auth.anyRequest().authenticated();
                 })
@@ -89,7 +90,8 @@ public class SecurityConfig {
                             "/scripts/*",
                             "/api/users",
                             "/api/users/login",
-                            "/api/users/*/*").permitAll();
+                            "/api/users/*/*",
+                                "/login").permitAll();
                     auth.anyRequest().authenticated();
                 })
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))

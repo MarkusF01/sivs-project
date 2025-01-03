@@ -93,6 +93,30 @@ async function createAccount(data) {
     }
 }
 
+async function postLogin(credentials) {
+    try {
+        const response = await fetch(`/api/users/login`, {
+            method: 'POST',
+            headers: {
+                'Authorization': `Basic ${credentials}`
+            },
+        });
+
+        // Überprüft, ob die Anfrage erfolgreich war
+        if (response.ok) {
+            // Gibt die JSON-Antwort zurück
+            return await response.json();
+        } else {
+            // Wirft einen Fehler, wenn die Anfrage nicht erfolgreich war
+            throw new Error('Anfrage fehlgeschlagen');
+        }
+    } catch (error) {
+        // Behandelt Fehler beim Senden der Anfrage
+        console.error("Fehler beim Abrufen der Daten", error);
+        throw new Error('Netzwerkantwort war nicht in Ordnung.');
+    }
+}
+
 // Funktion zum Ausloggen eines Accounts
 async function postLogout() {
     try {

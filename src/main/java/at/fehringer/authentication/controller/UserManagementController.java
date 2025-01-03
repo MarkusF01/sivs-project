@@ -30,17 +30,8 @@ public class UserManagementController {
     }
 
     @PostMapping("/login")
-    public ResponseEntity<?> login(@RequestBody LoginRequest request) {
-        Authentication authentication = authenticationManager.authenticate(
-                new UsernamePasswordAuthenticationToken(
-                        request.getUsername(),
-                        request.getPassword()
-                )
-        );
-        SecurityContextHolder.getContext().setAuthentication(authentication);
-
-        String token = tokenService.generateToken(request);
-
+    public ResponseEntity<?> login(Authentication authentication) {
+        String token = tokenService.generateToken(authentication.getName());
 
         return ResponseEntity.ok(new LoginResponse(token));
     }

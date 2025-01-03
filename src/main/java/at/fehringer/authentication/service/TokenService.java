@@ -18,14 +18,14 @@ public class TokenService {
         this.encoder = encoder;
     }
 
-    public String generateToken(LoginRequest request) {
+    public String generateToken(String username) {
         Instant now = Instant.now();
         String scope = "";
         JwtClaimsSet claims = JwtClaimsSet.builder()
                 .issuer("self")
                 .issuedAt(now)
                 .expiresAt(now.plus(1, ChronoUnit.HOURS))
-                .subject(request.getUsername())
+                .subject(username)
                 .claim("scope", scope)
                 .build();
         return this.encoder.encode(JwtEncoderParameters.from(claims)).getTokenValue();

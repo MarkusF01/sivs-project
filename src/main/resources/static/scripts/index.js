@@ -18,19 +18,16 @@ form.addEventListener('submit', async function (event) {
         return;
     }
 
-    // Erstellt ein Objekt mit den Anmeldedaten
-    const loginRequest = {
-        username: username,
-        password: password
-    }
+    // Erstellt einen Base64 String mit Benutzer und Passwort
+    const credentials = btoa(`${username}:${password}`);
     try {
         // Sendet die Anmeldedaten an den Server und wartet auf die Antwort
-        const response = await postJSON(`/api/users/login`, loginRequest);
+        const response = await postLogin(credentials);
 
         // Leitet den Benutzer zur Homeseite weiter, wenn die Anmeldung erfolgreich war
         console.log(response)
 
-        document.cookie = "Authentication" + "=" + `Bearer ${response.token}`  + "" + "; path=/";
+        document.cookie = "Authentication=" + `Bearer ${response.token}` + "; path=/; SameSite=Lax;";
         // window.location.href = response.path;
     } catch (error) {
         // Tritt ein Fehler während der Anmeldung auf
