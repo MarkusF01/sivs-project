@@ -1,6 +1,6 @@
-package at.fehringer.authentication.Repository;
+package at.fehringer.authentication.repository;
 
-import at.fehringer.authentication.Repository.model.User;
+import at.fehringer.authentication.repository.model.User;
 import org.springframework.data.repository.CrudRepository;
 
 import java.util.Optional;

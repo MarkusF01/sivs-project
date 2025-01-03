@@ -1,11 +1,11 @@
-package at.fehringer.authentication.Controller;
+package at.fehringer.authentication.controller;
 
-import at.fehringer.authentication.Controller.dto.DiaryEntryResponse;
-import at.fehringer.authentication.Controller.dto.CreateDiaryEntryRequest;
-import at.fehringer.authentication.Repository.DiaryEntryRepository;
-import at.fehringer.authentication.Repository.UserRepository;
-import at.fehringer.authentication.Repository.model.DiaryEntry;
-import at.fehringer.authentication.Repository.model.User;
+import at.fehringer.authentication.controller.dto.DiaryEntryResponse;
+import at.fehringer.authentication.controller.dto.CreateDiaryEntryRequest;
+import at.fehringer.authentication.repository.DiaryEntryRepository;
+import at.fehringer.authentication.repository.UserRepository;
+import at.fehringer.authentication.repository.model.DiaryEntry;
+import at.fehringer.authentication.repository.model.User;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeToken;
 import org.springframework.beans.factory.annotation.Autowired;

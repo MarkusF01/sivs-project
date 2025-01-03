@@ -1,6 +1,6 @@
-package at.fehringer.authentication;
+package at.fehringer.authentication.config;
 
-import at.fehringer.authentication.Service.UserService;
+import at.fehringer.authentication.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

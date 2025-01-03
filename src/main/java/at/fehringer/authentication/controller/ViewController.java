@@ -1,4 +1,4 @@
-package at.fehringer.authentication.Controller;
+package at.fehringer.authentication.controller;
 
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;

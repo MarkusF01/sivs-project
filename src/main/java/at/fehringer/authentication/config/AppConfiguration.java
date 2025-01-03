@@ -1,4 +1,4 @@
-package at.fehringer.authentication;
+package at.fehringer.authentication.config;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.context.annotation.Bean;
