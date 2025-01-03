@@ -27,7 +27,8 @@ form.addEventListener('submit', async function (event) {
         // Leitet den Benutzer zur Homeseite weiter, wenn die Anmeldung erfolgreich war
         console.log(response)
 
-        document.cookie = "Authentication=" + `Bearer ${response.token}` + "; path=/; SameSite=Lax;";
+        localStorage.setItem("jwt", response.token);
+
         // window.location.href = response.path;
     } catch (error) {
         // Tritt ein Fehler während der Anmeldung auf

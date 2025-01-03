@@ -2,11 +2,14 @@
 async function postJSON(url, data) {
     console.log(`Zugriff auf URL ${url}`);
     try {
+        const token = localStorage.getItem('jwt');
+
         // Sendet einen POST-Request mit den angegebenen Daten
         const response = await fetch(url, {
             method: 'POST',
             headers: {
-                'Content-Type': 'application/json'
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${token}`
             },
             body: JSON.stringify(data)
         });
@@ -30,9 +33,14 @@ async function postJSON(url, data) {
 async function loadJSON(url) {
     console.log(`Zugriff auf URL ${url}`);
     try {
+        const token = localStorage.getItem('jwt');
+
         // Sendet einen GET-Request
         const response = await fetch(url, {
-            method: 'GET'
+            method: 'GET',
+            headers: {
+                'Authorization': `Bearer ${token}`
+            },
         });
 
         // Überprüft, ob die Anfrage erfolgreich war
@@ -54,9 +62,11 @@ async function loadJSON(url) {
 async function deleteRequest(url) {
     console.log(`Zugriff auf URL ${url}`);
     try {
+        const token = localStorage.getItem('jwt');
         // Sendet einen DELETE-Request mit den angegebenen Daten
         const response = await fetch(url, {
-            method: 'DELETE'
+            method: 'DELETE',
+            'Authorization': `Bearer ${token}`
         });
 
         if (!response.ok) {
@@ -73,11 +83,13 @@ async function deleteRequest(url) {
 // Funktion zum Erstellen eines Accounts
 async function createAccount(data) {
     try {
+        const token = localStorage.getItem('jwt');
         // Sendet einen POST-Request mit den angegebenen Daten
         const response = await fetch(`/api/users`, {
             method: 'POST',
             headers: {
-                'Content-Type': 'application/json'
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${token}`
             },
             body: JSON.stringify(data)
         });
