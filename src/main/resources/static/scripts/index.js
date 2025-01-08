@@ -29,7 +29,7 @@ form.addEventListener('submit', async function (event) {
 
         localStorage.setItem("jwt", response.token);
 
-        // window.location.href = response.path;
+        window.location.href = "/";
     } catch (error) {
         // Tritt ein Fehler während der Anmeldung auf
 

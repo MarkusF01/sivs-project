@@ -35,6 +35,10 @@ async function loadJSON(url) {
     try {
         const token = localStorage.getItem('jwt');
 
+        if(token === null || token.length === 0) {
+            throw new Error('User not authenticated');
+        }
+
         // Sendet einen GET-Request
         const response = await fetch(url, {
             method: 'GET',
@@ -54,7 +58,7 @@ async function loadJSON(url) {
     } catch (error) {
         // Behandelt Fehler beim Laden der Daten
         console.error("Fehler beim Abrufen der Daten", error);
-        throw new Error('Netzwerkantwort war nicht in Ordnung.');
+        throw new Error(error.message);
     }
 }
 
@@ -66,7 +70,9 @@ async function deleteRequest(url) {
         // Sendet einen DELETE-Request mit den angegebenen Daten
         const response = await fetch(url, {
             method: 'DELETE',
-            'Authorization': `Bearer ${token}`
+            headers: {
+                'Authorization': `Bearer ${token}`
+            },
         });
 
         if (!response.ok) {
@@ -89,7 +95,6 @@ async function createAccount(data) {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
-                'Authorization': `Bearer ${token}`
             },
             body: JSON.stringify(data)
         });
@@ -122,23 +127,6 @@ async function postLogin(credentials) {
             // Wirft einen Fehler, wenn die Anfrage nicht erfolgreich war
             throw new Error('Anfrage fehlgeschlagen');
         }
-    } catch (error) {
-        // Behandelt Fehler beim Senden der Anfrage
-        console.error("Fehler beim Abrufen der Daten", error);
-        throw new Error('Netzwerkantwort war nicht in Ordnung.');
-    }
-}
-
-// Funktion zum Ausloggen eines Accounts
-async function postLogout() {
-    try {
-        // Sendet einen POST-Request mit den angegebenen Daten
-        const response = await fetch(`/logout`, {
-            method: 'POST',
-        });
-
-        // Überprüft, ob die Anfrage erfolgreich war
-        return response
     } catch (error) {
         // Behandelt Fehler beim Senden der Anfrage
         console.error("Fehler beim Abrufen der Daten", error);
