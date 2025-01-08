@@ -12,14 +12,11 @@ async function loadDiaryEntries() {
 
         // Iteriere durch die Einträge und erstelle jeweils eine Box
         entriesResponse.entries.forEach(entry => {
-            const div_row = createDiaryBox(entry.id, entry.entryTitle, entry.entryDate, entry.entryContent);
-            entriesList.appendChild(div_row);
+            addEntryBoxToDomList(entry, entriesList)
         });
 
     } catch (error) {
-        // Fehlerbehandlung: Bei einem Fehler weiterleiten zur Startseite
         console.error('Error fetching data:', error);
-        window.location.href = "/";
     }
 }
 
@@ -74,7 +71,8 @@ async function addDiaryEntry(event) {
         // Setze das Formular zurück und lade die Seite neu
         document.getElementById('login-form').reset();
         document.getElementById('entry_date').value = formattedDate;
-        location.reload();
+        const entriesList = document.getElementById('diary-entries');
+        addEntryBoxToDomList(response, entriesList);
     } catch (error) {
         // Fehlerbehandlung, falls das Hinzufügen fehlschlägt
         throw new Error('Nicht veröffentlicht!');
@@ -109,6 +107,11 @@ document.getElementById('post-button').addEventListener('click', async function 
 });
 
 document.getElementById('logout-button').addEventListener('click', async event => logout(event));
+
+function addEntryBoxToDomList(entry, entriesList) {
+    const div_row = createDiaryBox(entry.id, entry.entryTitle, entry.entryDate, entry.entryContent);
+    entriesList.appendChild(div_row);
+}
 
 // Funktion zum Erstellen einer Box für einen Tagebucheintrag
 function createDiaryBox(id, title, date, content) {
