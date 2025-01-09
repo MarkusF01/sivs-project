@@ -3,7 +3,7 @@ spring:
     name: authentication
   # Diary DB
   datasource:
-    url: jdbc:postgresql://localhost:5432/db_sivs_diary
+    url: jdbc:postgresql://${postgres.route:localhost}:5432/db_sivs_diary
     username: postgres
     password: sivs_2024!
     driver-class-name: org.postgresql.Driver
@@ -20,6 +20,6 @@ spring:
   # Redis Session
   data:
       redis:
-        host: localhost
+        host: ${redis.route:localhost}
         port: 6379
         password: sivs_2024
