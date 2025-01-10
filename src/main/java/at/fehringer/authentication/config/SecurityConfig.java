@@ -68,18 +68,16 @@ public class SecurityConfig {
                             "/").permitAll();
                     auth.anyRequest().authenticated();
                 })
-                .oauth2ResourceServer(oauth2 -> oauth2
-                        .jwt(Customizer.withDefaults()))
-                .sessionManagement(sessionManagement -> sessionManagement
-                        .sessionCreationPolicy(STATELESS)
+                .oauth2ResourceServer(oauth2 -> oauth2.jwt(Customizer.withDefaults()))
+                .sessionManagement(session -> session.sessionCreationPolicy(STATELESS)
                 )
                 .build();
     }
 
     @Order(Ordered.HIGHEST_PRECEDENCE)
     @Bean
-    SecurityFilterChain tokenSecurityFilterChain(HttpSecurity http, AuthenticationManager authenticationManager) throws Exception {
-        return http
+    SecurityFilterChain tokenSecurityFilterChain(HttpSecurity httpSecurity, AuthenticationManager authenticationManager) throws Exception {
+        return httpSecurity
                 .securityMatcher(new AntPathRequestMatcher("/api/users/login"))
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .csrf(AbstractHttpConfigurer::disable)
