@@ -11,7 +11,7 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
 </head>
 <body>
-<div class="container mt-5" id="diary-container" hidden="hidden">
+<div class="container mt-5">
 
     <!-- Header-Bereich -->
     <div id="header-area" class="row justify-content-center">
@@ -21,13 +21,6 @@
 
                 <h2 class="mb-4">Tagebuch von <span id="username-display"></span></h2>
 
-                <script>
-                    const par = new URLSearchParams(window.location.search);
-                    const name = par.get('username');
-                    if (name) {
-                        document.getElementById('username-display').textContent = name;
-                    }
-                </script>
                 <div class="col-2">
                     <!-- Abmelden-Button, der zur Startseite führt -->
                     <button class="btn btn-primary" id="logout-button">Abmelden</button>
