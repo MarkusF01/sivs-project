@@ -10,6 +10,7 @@ import at.fehringer.authentication.repository.model.User;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeToken;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
@@ -56,11 +57,16 @@ public class DiaryController {
     }
 
     @DeleteMapping("/{diaryId}")
-    public ResponseEntity<?> deleteDiaryEntry(@PathVariable Integer diaryId) {
+    public ResponseEntity<?> deleteDiaryEntry(@PathVariable Integer diaryId, Authentication authentication) {
         Optional<DiaryEntry> diaryEntryOptional = diaryEntryRepository.findById(diaryId);
 
         if (diaryEntryOptional.isEmpty()) {
             return ResponseEntity.badRequest().body("Diary entry not found");
+        }
+        String diaryUsername = diaryEntryOptional.get().getUser().getUsername();
+
+        if(!authentication.getName().equals(diaryUsername)) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
         }
 
         diaryEntryRepository.deleteById(diaryId);
