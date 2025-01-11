@@ -6,8 +6,7 @@ import at.fehringer.authentication.controller.dto.ResetPasswordRequest;
 import at.fehringer.authentication.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.security.core.Authentication;
+
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -21,12 +20,6 @@ public class UserManagementController {
         this.userService = userService;
     }
 
-    @PreAuthorize("isAuthenticated()")
-    @GetMapping("/authorize")
-    public ResponseEntity<?> login(Authentication authentication) {
-
-        return ResponseEntity.ok(new LoginResponse("/pages/diary?username=" + authentication.getName()));
-    }
 
     @PostMapping
     public ResponseEntity<?> createAccount(@RequestBody CreateUserRequest createUserRequest) {

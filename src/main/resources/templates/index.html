@@ -5,8 +5,6 @@
     <title>Tagebuch</title>
     <!-- Füge das Bootstrap CSS-Framework hinzu -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-    <!-- Füge dein eigenes JavaScript-Datei für das Formular hinzu -->
-    <script th:src="@{/scripts/main.js}"></script>
 </head>
 <body>
     <div class="container mt-5">
@@ -15,7 +13,7 @@
                 <!-- Überschrift des Tagebuchs -->
                 <h2 class="mb-4">Tagebuch</h2>
 
-                <button id="login-button" class="btn btn-primary">Einloggen</button>
+                <a href="/pages/diary" class="btn btn-primary">Einloggen</a>
 
                 <hr> <!-- Horizontale Linie zur Trennung -->
 
@@ -27,9 +25,6 @@
             </div>
         </div>
     </div>
-
-    <!-- Füge dein eigenes JavaScript-Datei für die Index-Seite hinzu -->
-    <script th:src="@{/scripts/index.js}"></script>
 
     <!-- Füge jQuery, Popper.js und Bootstrap JavaScript-Dateien hinzu -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
