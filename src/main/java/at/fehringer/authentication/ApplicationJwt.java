@@ -7,10 +7,10 @@ import org.springframework.boot.context.properties.EnableConfigurationProperties
 
 @SpringBootApplication
 @EnableConfigurationProperties(RsaKeyProperties.class)
-public class AuthenticationApplication {
+public class ApplicationJwt {
 
     public static void main(String[] args) {
-        SpringApplication.run(AuthenticationApplication.class, args);
+        SpringApplication.run(ApplicationJwt.class, args);
     }
 
 }
