@@ -52,8 +52,8 @@ public class SecurityConfig {
                 .logout(Customizer.withDefaults())
 
                 .sessionManagement(sessionManagement -> sessionManagement
-                        .sessionCreationPolicy(IF_REQUIRED) //
-                        .sessionFixation(SessionManagementConfigurer.SessionFixationConfigurer::newSession) //
+                        .sessionCreationPolicy(IF_REQUIRED)
+                        .sessionFixation(SessionManagementConfigurer.SessionFixationConfigurer::newSession)
                 )
                 .build();
     }
