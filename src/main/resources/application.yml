@@ -3,6 +3,7 @@ spring:
     name: authentication
   # Diary DB
   datasource:
+    # if application started from docker-compose use env variable from compose or if started from ide use localhost
     url: jdbc:postgresql://${postgres.route:localhost}:5432/db_sivs_diary
     username: postgres
     password: sivs_2024!
@@ -20,6 +21,7 @@ spring:
   # Redis Session
   data:
       redis:
+        # if application started from docker-compose use env variable from compose or if started from ide use localhost
         host: ${redis.route:localhost}
         port: 6379
         password: sivs_2024
