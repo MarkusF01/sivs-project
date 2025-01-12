@@ -2,7 +2,8 @@ spring:
   application:
     name: authentication
   datasource:
-    url: jdbc:postgresql://localhost:5432/db_sivs_diary
+    # if application started from docker-compose use env variable from compose or if started from ide use localhost
+    url: jdbc:postgresql://${postgres.route:localhost}:5432/db_sivs_diary
     username: postgres
     password: sivs_2024!
     driver-class-name: org.postgresql.Driver
