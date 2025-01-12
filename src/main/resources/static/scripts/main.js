@@ -50,6 +50,31 @@ async function loadJSON(url) {
     }
 }
 
+async function createAccountRequest(url, data) {
+    console.log(`Zugriff auf URL ${url}`);
+    try {
+        // Sendet einen POST-Request mit den angegebenen Daten
+        const response = await fetch(url, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(data)
+        });
+
+        // Überprüft, ob die Anfrage erfolgreich war
+        if (!response.ok) {
+            // Wirft einen Fehler, wenn die Anfrage nicht erfolgreich war
+            throw new Error('Anfrage fehlgeschlagen');
+        }
+    } catch (error) {
+        // Behandelt Fehler beim Senden der Anfrage
+        console.error("Fehler beim Abrufen der Daten", error);
+        throw new Error('Netzwerkantwort war nicht in Ordnung.');
+    }
+}
+
+
 // Funktion zum Löschen von Daten über einen DELETE-Request
 async function deleteRequest(url) {
     console.log(`Zugriff auf URL ${url}`);

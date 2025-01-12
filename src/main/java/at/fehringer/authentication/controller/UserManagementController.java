@@ -1,7 +1,6 @@
 package at.fehringer.authentication.controller;
 
 import at.fehringer.authentication.controller.dto.CreateUserRequest;
-import at.fehringer.authentication.controller.dto.LoginResponse;
 import at.fehringer.authentication.controller.dto.ResetPasswordRequest;
 import at.fehringer.authentication.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,7 +27,7 @@ public class UserManagementController {
         if (!result) {
             return ResponseEntity.badRequest().body("Failed to create user");
         }
-        return ResponseEntity.ok(new LoginResponse("/pages/diary?username=" + createUserRequest.getUsername()));
+        return ResponseEntity.ok("User was created");
     }
 
     @PostMapping("/{username}/reset-password")

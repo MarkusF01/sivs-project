@@ -24,19 +24,10 @@ form.addEventListener("submit", async function (event) {
         // Sendet die Daten an den API-Endpunkt für Account-Erstellung
         try {
             var url = `/api/users`;
-            var response = await postJSON(url, formData);
-
-            // Nach der Registrierung Anmelden, um eine Sitzung zu starten TODO folgendes kann eig gelöscht werden
-            // var formData = {
-            //     username: username,
-            //     password: password
-            // };
-            //
-            // url = `/api/authorize`;
-            // response = await postJSON(url, formData);
+            var response = await createAccountRequest(url, formData);
 
             // Weiterleitung zur Startseite nach erfolgreicher Anmeldung
-            window.location.href = response.path;
+            window.location.href = "/";
         } catch (error) {
             alert("Netzwerkfehler");
         }
